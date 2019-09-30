@@ -50,3 +50,6 @@ Notes:
 The migration file is encrypted with aes_256.
 
 Copy the xmls from repo to usmt folder so helper exe can use them properly.
+
+Log Button shows what is happening with usmt and files in use.(like tail function)
+
