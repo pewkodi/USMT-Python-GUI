@@ -1,0 +1,173 @@
+<migration urlid="http://usmtgui.ehler.dk/Win10">
+
+<!-- This section will exclusively migrate Windows 10 special settings if un-commented -->
+      <!-- This components migrates the Tiles database -->
+   <component context="User" type="Application">
+        <displayName>TilesLayerAndStartmenu</displayName>
+        <paths>
+            <path type="File">%CSIDL_LOCAL_APPDATA%</path>
+        </paths>
+        <role role="Settings">
+            <detects>
+                <detect>
+                    <condition>MigXmlHelper.DoesObjectExist("File","%CSIDL_LOCAL_APPDATA%\Microsoft\Windows\CloudStore")</condition>
+                </detect>
+            </detects>
+            <rules>
+                <include filter='MigXmlHelper.IgnoreIrrelevantLinks()'>
+                    <objectSet>
+                        <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Windows\Caches\* [*]</pattern>
+						<pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Windows\CloudStore\* [*]</pattern>
+						<pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Windows\Explorer\* [*]</pattern>
+                    </objectSet>
+                </include>
+                <merge script="MigXmlHelper.DestinationPriority()">
+                    <objectSet>
+                        <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Windows\Caches\* [*]</pattern>
+						<pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Windows\CloudStore\* [*]</pattern>
+						<pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Windows\Explorer\* [*]</pattern>
+                    </objectSet>
+                </merge>
+            </rules>
+        </role>
+    </component> 
+	
+	     <component context="User" type="Application">
+          <displayName>TilesLayerAndStartmenuReg</displayName> 
+          <role role="Settings">
+		     <detects>
+                <detect>
+                    <condition>MigXmlHelper.DoesObjectExist("Registry","HKCU\Software\Microsoft\Windows\CurrentVersion\CloudStore")</condition>
+                </detect>
+            </detects>
+          <rules>
+               <include>
+                    <objectSet>
+                         <pattern type="Registry">HKCU\Software\Microsoft\Windows\CurrentVersion\CloudStore\* [*]</pattern>
+						 <pattern type="Registry">HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\SlowContextMenuEntries\* [*]</pattern>
+						 <pattern type="Registry">HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\EnableAutoTray\* [*]</pattern>
+                    </objectSet>
+               </include>
+          </rules>
+          </role>
+     </component>
+	
+	    <!-- This component migrates Recent Items -->
+    <component context="User" type="Application">
+        <displayName>RecentItems</displayName>
+        <role role="Settings">
+            <rules context="User">
+                <include>
+                    <objectSet>
+                        <pattern type="File">%CSIDL_APPDATA%\Microsoft\Windows\Recent\* [*]</pattern>
+                    </objectSet>
+                </include>
+			</rules>
+        </role>
+    </component>
+
+    <!-- This component migrates Recent destinations -->
+    <component context="User" type="Application">
+        <displayName>RecentDestinations</displayName>
+        <role role="Settings">
+            <rules context="User">
+                <include>
+                    <objectSet>
+                        <pattern type="File">%CSIDL_APPDATA%\Microsoft\Windows\Recent\AutomaticDestinations\* [*]</pattern>
+						<pattern type="File">%CSIDL_APPDATA%\Microsoft\Windows\Recent\CustomDestinations\* [*]</pattern>
+                    </objectSet>
+                </include>
+			</rules>
+        </role>
+    </component>
+	
+	<!-- Move USMTafterburner log-->
+    <component context="User" type="Application">
+        <displayName>USMTafterburnerLog</displayName>
+        <role role="Settings">
+            <rules>
+                <include>
+                    <objectSet>
+                        <pattern type="File">%CSIDL_COMMON_DOCUMENTS%\UPCentral\USMTab\ [ModernAppSettingsBackup.lst]</pattern>
+                    </objectSet>
+                </include>
+								<locationModify script="MigXmlHelper.RelativeMove('%CSIDL_COMMON_DOCUMENTS%\UPCentral\USMTab\','%CSIDL_LOCAL_APPDATA%\USMTModernAppsBackup\')">
+				<objectSet>
+						<pattern type="File">%CSIDL_COMMON_DOCUMENTS%\UPCentral\USMTab\ [ModernAppSettingsBackup.lst]</pattern>
+				</objectSet>                                                
+				</locationModify>
+            </rules>
+        </role>
+    </component>
+
+<!-- Move USMTafterburner -->
+    <component context="User" type="Application">
+        <displayName>USMTafterburner</displayName>
+        <role role="Settings">
+            <rules>
+                <include>
+                    <objectSet>
+                        <pattern type="File">%CSIDL_COMMON_DOCUMENTS%\UPCentral\USMTab\ [USMTafterburner.exe]</pattern>
+                    </objectSet>
+                </include>
+					<locationModify script="MigXmlHelper.RelativeMove('%CSIDL_COMMON_DOCUMENTS%\UPCentral\USMTab\','%CSIDL_DESKTOPDIRECTORY%')">
+				<objectSet>
+						<pattern type="File">%CSIDL_COMMON_DOCUMENTS%\UPCentral\USMTab\ [USMTafterburner.exe]</pattern>
+				</objectSet>                                                
+				</locationModify>
+            </rules>
+        </role>
+    </component>
+	
+	<!-- Old Sticky notes migration to Windows 10 -->
+    <component context="User" type="Application">
+        <displayName>LegacyStickyNotes</displayName>
+        <role role="Settings">
+            <rules context="User">
+                <include>
+                    <objectSet>
+                        <pattern type="File">%CSIDL_APPDATA%\Microsoft\Sticky Notes\ [StickyNotes.snt]</pattern>
+                    </objectSet>
+                </include>
+			</rules>
+        </role>
+    </component>
+	
+	<!-- Win10.1607 onwards Sticky notes migration to Win10.1607 onwards -->
+    <component context="User" type="Application">
+        <displayName>Win10StickyNotes</displayName>
+        <role role="Settings">
+            <rules context="User">
+                <include>
+                    <objectSet>
+                        <pattern type="File">%CSIDL_LOCAL_APPDATA%\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\* [*]</pattern>
+                    </objectSet>
+                </include>
+								<locationModify script="MigXmlHelper.RelativeMove('%CSIDL_LOCAL_APPDATA%\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\','%CSIDL_LOCAL_APPDATA%\USMTModernAppsBackup\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\')">
+				<objectSet>
+						<pattern type="File">%CSIDL_LOCAL_APPDATA%\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\* [*]</pattern>
+				</objectSet>                                                
+				</locationModify>
+            </rules>
+        </role>
+    </component>
+	
+	<!-- Win10.1607 onwards Edge Favorites migration to Win10.1607 onwards -->
+    <component context="User" type="Application">
+        <displayName>EdgeFavorites</displayName>
+        <role role="Settings">
+            <rules context="User">
+                <include>
+                    <objectSet>
+                        <pattern type="File">%CSIDL_LOCAL_APPDATA%\Packages\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\120712-0049\DBStore\* [*]</pattern>
+                    </objectSet>
+                </include>
+								<locationModify script="MigXmlHelper.RelativeMove('%CSIDL_LOCAL_APPDATA%\Packages\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\120712-0049\DBStore\','%CSIDL_LOCAL_APPDATA%\USMTModernAppsBackup\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\120712-0049\DBStore\')">
+				<objectSet>
+						<pattern type="File">%CSIDL_LOCAL_APPDATA%\Packages\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\120712-0049\DBStore\* [*]</pattern>
+				</objectSet>                                                
+				</locationModify>
+            </rules>
+        </role>
+    </component>
+</migration>

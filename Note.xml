@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<migration urlid="http://www.microsoft.com/migration/1.0/migxmlext/LegacyStickyNotes">
+	
+
+    <component context="UserAndSystem" type="Application">
+        <displayName>LegacyStickyNotes</displayName>
+        <role role="Settings">
+            <rules context="User">
+                <include>
+                    <objectSet>
+                        <pattern type="File">%CSIDL_APPDATA%\Microsoft\Sticky 
+Notes\ [StickyNotes.snt]</pattern>
+                    </objectSet>
+                </include>
+                                                                <locationModify 
+script="MigXmlHelper.RelativeMove('%CSIDL_APPDATA%\Microsoft\Sticky 
+Notes','%CSIDL_LOCAL_APPDATA%\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbw\LocalState\Legacy\
+ [ThresholdNotes.snt]')">
+                                                                                
+<objectSet>
+                                                                                
+                                <pattern 
+type="File">%CSIDL_APPDATA%\Microsoft\Sticky Notes\ [StickyNotes.snt]</pattern>
+                                                                                
+</objectSet>
+                                                                
+</locationModify>
+            </rules>
+        </role>
+</component>
+
+
+
+    <!-- This component migrates Google Chrome Bookmarks -->
+  <component context="UserAndSystem" type="Application">
+    <displayName>Google Chrome Bookmarks</displayName>
+    <role role="Settings">
+      <destinationCleanup>
+        <objectSet>
+          <pattern type="File">%CSIDL_LOCAL_APPDATA%\Google\Chrome\User Data\*\Cache\* [*]</pattern>
+        </objectSet>
+      </destinationCleanup>
+      <rules context="User">
+        <include>
+          <objectSet>
+            <pattern type="File">%CSIDL_LOCAL_APPDATA%\Google\Chrome\User Data\* [*]</pattern>
+          </objectSet>
+        </include>
+        <exclude>
+          <objectSet>
+            <pattern type="File">%CSIDL_LOCAL_APPDATA%\Google\Chrome\User Data\* [*.tmp]</pattern>
+            <pattern type="File">%CSIDL_LOCAL_APPDATA%\Google\Chrome\User Data\*\Cache\* [*]</pattern>
+          </objectSet>
+        </exclude>
+        <merge script="MigXmlHelper.SourcePriority()">
+          <objectSet>
+            <pattern type="File">%CSIDL_LOCAL_APPDATA%\Google\Chrome\User Data\* [*]</pattern>
+          </objectSet>
+        </merge>
+      </rules>
+    </role>
+  </component>
+
+  <!-- Mozilla Firefox -->
+  <component context="UserAndSystem" type="Application">
+    <displayName>Mozilla Firefox BookMarks</displayName>
+    
+    <role role="Settings">
+      
+      <rules context="User">
+        <destinationCleanup>
+          <objectSet>
+            <pattern type="File">%CSIDL_LOCAL_APPDATA%\Mozilla\Firefox\Profiles\*\Cache\* [*]</pattern>
+          </objectSet>
+        </destinationCleanup>
+        <include>
+          <objectSet>
+            <pattern type="File">%CSIDL_APPDATA%\Mozilla\Firefox\* [*]</pattern>
+            <pattern type="File">%CSIDL_LOCAL_APPDATA%\Mozilla\Firefox\Profiles\* [*]</pattern>
+          </objectSet>
+        </include>
+        <exclude>
+          <objectSet>
+            <pattern type="File">%CSIDL_APPDATA%\Mozilla\Firefox\Crash Reports\* [*]</pattern>
+            <pattern type="File">%CSIDL_APPDATA%\Mozilla\Firefox\Profiles\*\ [pluginreg.dat]</pattern>
+            <pattern type="File">%CSIDL_LOCAL_APPDATA%\Mozilla\Firefox\Profiles\*\Cache\* [*]</pattern>
+          </objectSet>
+        </exclude>
+        <merge script="MigXmlHelper.SourcePriority()">
+          <objectSet>
+            <pattern type="File">%CSIDL_APPDATA%\Mozilla\Firefox\* [*]</pattern>
+            <pattern type="File">%CSIDL_LOCAL_APPDATA%\Mozilla\Firefox\Profiles\* [*]</pattern>
+          </objectSet>
+        </merge>
+      </rules>
+    </role>
+  </component>
+
+
+<component context="UserAndSystem" type="Application">
+        <displayName>Startup Menu</displayName>
+        <role role="Settings">
+            <rules context="UserAndSystem">
+	<include>
+        <objectSet>
+          <pattern type="File">%CSIDL_STARTMENU%\* [*]</pattern>
+        </objectSet>
+      </include>
+               
+            </rules>
+    </role>
+
+     <role role="Binaries">
+            <rules context="UserAndSystem">
+	<include>
+        <objectSet>
+          <pattern type="File">%CSIDL_STARTMENU%\* [*]</pattern>
+        </objectSet>
+      </include>
+               
+            </rules>
+        </role>
+
+	<role role="Data">
+            <rules context="UserAndSystem">
+	<include>
+        <objectSet>
+          <pattern type="File">%CSIDL_STARTMENU%\* [*]</pattern>
+        </objectSet>
+      </include>
+               
+            </rules>
+        </role>
+
+
+
+</component>
+
+ 
+
+ <!--
+ This component migrates the printers and network drives 
+-->
+<component type="System">
+  <displayName>Printers</displayName>
+	<role role="Settings">
+		<rules context="UserAndSystem">
+			<include>
+				<objectSet>
+					<pattern type="Registry">HKCU\Printers\* [*]</pattern>
+					<pattern type="Registry">HKCU\Software\Microsoft\Windows NT\CurrentVersion\Windows [Device]</pattern>
+					<pattern type="Registry">HKCU\Software\Microsoft\Windows NT\CurrentVersion\Print\Providers\* [*]</pattern>
+					<pattern type="Registry">HKLM\Software\Microsoft\Windows NT\CurrentVersion\Print\Providers\* [*]</pattern>
+					<pattern type="Registry">HKLM\Software\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Print\Providers\* [*]</pattern>
+				</objectSet>
+			</include>
+		</rules>
+	</role>
+</component>
+
+<component type="System">
+  <displayName>ControlExclusion</displayName>
+	<role role="Settings">
+		<rules context="UserAndSystem">
+			<contentModify script="MigXmlHelper.MergeMultiSzContent('Remove','MfeEpeHb.sys')">
+				<objectSet>
+        				<pattern type="Registry">HKLM\System\CurrentControlSet\Control\CrashControl [DumpFilters]</pattern>
+       				</objectSet>
+     			 </contentModify>
+				
+			<include>
+				<objectSet>
+					<pattern type="Registry">HKLM\System\CurrentControlSet\Control\CrashControl [DumpFilters]</pattern>
+				</objectSet>
+			</include>
+		</rules>
+	</role>
+</component>
+
+
+
+
+
+<component type="System">
+  <displayName>Network Drives</displayName>
+	<role role="Settings">
+		<rules context="UserAndSystem">
+			<include>
+				<objectSet>
+					<pattern type="Registry">HKCU\Network\* [*]</pattern>
+				</objectSet>
+			</include>
+		</rules>
+	</role>
+</component>
+
+
+
+
+<component type="System">
+  <displayName>Network Locations</displayName>
+	<role role="Settings">
+		<rules context="UserAndSystem">
+			<include>
+				<objectSet>
+					<pattern type="Registry">HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\PublishingWizard\AddNetworkPlace\* [*]</pattern>
+				</objectSet>
+			</include>
+		</rules>
+	</role>
+</component>
+
+
+
+<component type="Documents" context="System">
+  <displayName>D: Drive to C:\Ddrive_data</displayName>
+  <role role="Data">
+    <rules>
+      <!-- Migrate all directories and files present in D:\ folder -->
+      <include>
+        <objectSet>
+          <pattern type="File">D:\* [*]</pattern>
+        </objectSet>
+      </include>
+      <!-- This migrates all files and directories from C:\Ddrive_data folder.-->
+      <locationModify script="MigXmlHelper.RelativeMove('D:\','C:\Ddrive_data')">
+        <objectSet>
+          <pattern type="File">D:\* [*]</pattern>
+        </objectSet>
+      </locationModify>
+    </rules>
+  </role>
+</component>
+
+<component type="Documents" context="System">
+  <displayName>E: Drive to C:\Edrive_data</displayName>
+  <role role="Data">
+    <rules>
+      <!-- Migrate all directories and files present in D:\ folder -->
+      <include>
+        <objectSet>
+          <pattern type="File">E:\* [*]</pattern>
+        </objectSet>
+      </include>
+      <!-- This migrates all files and directories from E: to C:\edrive_data folder.-->
+      <locationModify script="MigXmlHelper.RelativeMove('E:\','C:\Edrive_data')">
+        <objectSet>
+          <pattern type="File">E:\* [*]</pattern>
+        </objectSet>
+      </locationModify>
+    </rules>
+  </role>
+</component>
+
+<component type="Documents" context="System">
+  <displayName>F: Drive to C:\Fdrive_data</displayName>
+  <role role="Data">
+    <rules>
+      <!-- Migrate all directories and files present in F:\ folder -->
+      <include>
+        <objectSet>
+          <pattern type="File">F:\* [*]</pattern>
+        </objectSet>
+      </include>
+      <!-- This migrates all files and directories from F:\ to C:\Fdrive_data folder.-->
+      <locationModify script="MigXmlHelper.RelativeMove('F:\','C:\Fdrive_data')">
+        <objectSet>
+          <pattern type="File">F:\* [*]</pattern>
+        </objectSet>
+      </locationModify>
+    </rules>
+  </role>
+</component>
+
+<component type="Documents" context="System">
+	<displayName>Exclude G: Drive or Local USB Source</displayName>
+        <role role="Data">
+            <rules>
+         <exclude>
+             <objectSet>
+                   <pattern type="File"> G:\* [*]</pattern>
+             </objectSet>
+         </exclude>  
+            </rules>
+        </role>
+    </component>
+
+
+
+</migration>
+
