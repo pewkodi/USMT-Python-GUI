@@ -28,4 +28,16 @@ It will copy the usmt tool to c:\win7usmt
 
 A gui will come up:
 
+![Gui Startup](https://github.com/pewkodi/USMT-Python-GUI/blob/master/images/gui1.PNG)
 
+Choose the autofill button:
+
+![Gui Button](https://github.com/pewkodi/USMT-Python-GUI/blob/master/images/autofill.PNG)
+
+__Scan__ will capture data (old PC)
+
+__Load__ will load data (new PC)
+
+Choose the users you want to migrate:
+
+![Gui Users](https://github.com/pewkodi/USMT-Python-GUI/blob/master/images/Users.PNG)
