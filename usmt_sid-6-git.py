@@ -989,7 +989,7 @@ l2 = Label(master, text="Users to Migrate:")
 l2.grid(row=1,column=1,sticky=E+N+S+W)
 l3 = Label(master, text="Drive Path(Migration Store")
 l3.grid(row=2,column=1,sticky=E+N+S+W)
-l4 = Label(master, text="USMT STATE(type load or scan")
+l4 = Label(master, text="USMT STATE(type load or scan)")
 l4.grid(row=3,column=1,sticky=E+N+S+W)
 
 e1 = Entry(master,width=150)
