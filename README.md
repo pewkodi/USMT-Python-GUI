@@ -41,3 +41,12 @@ __Load__ will load data (new PC)
 Choose the users you want to migrate:
 
 ![Gui Users](https://github.com/pewkodi/USMT-Python-GUI/blob/master/images/Users.PNG)
+
+
+
+
+Notes: 
+
+The migration file is encrypted with aes_256.
+
+Copy the xmls from repo to usmt folder so helper exe can use them properly.
